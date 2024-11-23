@@ -7,11 +7,14 @@ use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
+
+    // function to create members
     public function create(){
         $name = "";
         $email = "";
         $phone = "";
 
+        // check whether all data has been filled
         if(isset($_POST['name'])){
             $name = $_POST['name'];
         }
@@ -22,6 +25,7 @@ class MemberController extends Controller
             $phone = $_POST['phone_number'];
         }
 
+        // make new member
         $member = new MemberModel();
         $member->name = $name;
         $member->email = $email;
@@ -31,6 +35,7 @@ class MemberController extends Controller
         return redirect('members');
     }
 
+    // function to read member
     public function view(){
         $member = MemberModel::all();
         return view('members',[
@@ -38,6 +43,7 @@ class MemberController extends Controller
         ]);
     }
 
+    // function to update member
     public function update(){
         $member = MemberModel::find($_POST['member_id']);
 
@@ -56,6 +62,7 @@ class MemberController extends Controller
                 $phone = $_POST['phone_number'];
             }
 
+            // update old data to new data
             $member->name = $name;
             $member->email = $email;
             $member->phone_number = $phone;
@@ -65,6 +72,7 @@ class MemberController extends Controller
         }
     }
 
+    // function to delete member
     public function delete(){
         $member = MemberModel::find($_POST['member_id']);
 

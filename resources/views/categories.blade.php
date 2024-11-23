@@ -7,6 +7,7 @@
     <title>Categories</title>
 </head>
 <body>
+    {{-- table to read category --}}
     <table>
         {{-- tr itu yang ke kanan
         td itu yang ke bawah --}}
@@ -21,6 +22,7 @@
         <tr>
             <td>{{$category->id}}</td>
             <td>{{$category->category}}</td>
+            {{-- button to update category --}}
             <td>
                 <form action="/update_category" method="POST">
                     @csrf
@@ -28,6 +30,7 @@
                     <button type="submit">Update</button>
                 </form>
             </td>
+            {{-- button to delete category --}}
             <td>
                 <form action="/delete_category" method="POST">
                     @csrf
@@ -41,6 +44,7 @@
    
     <br>
 
+    {{-- form to create new category --}}
     <form action="/create_category" method="POST">
         @csrf
         <div>

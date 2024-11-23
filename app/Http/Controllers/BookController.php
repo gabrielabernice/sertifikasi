@@ -9,6 +9,8 @@ use Carbon\Carbon;
 
 class BookController extends Controller
 {
+
+    // function to create book
     public function create(Request $request){
         $title = "";
         $author = "";
@@ -16,6 +18,7 @@ class BookController extends Controller
         $publish = "";
         $available = "";
 
+        // check whether all data has been filled
         if(isset($_POST['title'])){
             $title = $_POST['title'];
         }
@@ -35,6 +38,7 @@ class BookController extends Controller
             $available = $_POST['available'];
         }
 
+        // creating the new data
         $book = new BookModel();
         $book->title = $title;
         $book->author = $author;
@@ -43,6 +47,7 @@ class BookController extends Controller
         $book->is_available = $request->has('available') ? 1 : 0;
         $book->save();
 
+        // if the category is selected, get the category and attach it
         if (!empty($categories)) {
             $book->category()->attach($categories);
         }
@@ -50,15 +55,26 @@ class BookController extends Controller
         return redirect('books');
     }
 
-    public function view(){
-        $book = BookModel::all();
+    // function to read the boosk
+    public function view(Request $request){
         $categories = CategoryModel::all();
-        return view('books',[
-            'books' => $book,
-            'categories' => $categories
-        ]);
+
+        // check whether a category has been selected
+        if ($request->isMethod('post') && $request->has('category_id') && $request->category_id != 0) {
+            $categoryId = $request->input('category_id');
+            // selected books based on the category
+            $filteredBooks = BookModel::whereHas('category', function ($query) use ($categoryId) {
+                $query->where('category_id', $categoryId);
+            })->get();
+        } else {
+            // show all books
+            $filteredBooks = BookModel::all();
+        }
+
+        return view('books', compact('filteredBooks', 'categories'));
     }
 
+    // function to edit books
     public function update(Request $request){
         $book = BookModel::find($_POST['book_id']);
         $categories = CategoryModel::all();
@@ -85,6 +101,7 @@ class BookController extends Controller
                 $available = $_POST['available'];
             }
 
+            // take the new data to change the old data
             $book->title = $title;
             $book->author = $author;
             $book->description = $description;
@@ -92,6 +109,7 @@ class BookController extends Controller
             $book->is_available = $request->has('available') ? 1 : 0;
             $book->save();
 
+            // take the new category, and detach the old category if its not selected
             if (isset($_POST['category_id']) && is_array($_POST['category_id'])) {
                 $book->category()->sync($_POST['category_id']);
             } else {
@@ -102,6 +120,7 @@ class BookController extends Controller
         }
     }
 
+    // function to delete books
     public function delete(){
         $book = BookModel::find($_POST['book_id']);
 

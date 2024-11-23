@@ -7,13 +7,17 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+
+    // function to create category
     public function create(){
         $category = "";
 
+        // check if category name is filled
         if(isset($_POST['category'])){
             $category = $_POST['category'];
         }
 
+        // create new data
         $categories = new CategoryModel();
         $categories->category = $category;
         $categories->save();
@@ -21,6 +25,7 @@ class CategoryController extends Controller
         return redirect('categories');
     }
 
+    // function to read categories
     public function view(){
         $category = CategoryModel::all();
         return view('categories',[
@@ -28,6 +33,7 @@ class CategoryController extends Controller
         ]);
     }
 
+    // function to update category
     public function update(){
         $categories = CategoryModel::find($_POST['category_id']);
 
@@ -40,6 +46,7 @@ class CategoryController extends Controller
                 $category = $_POST['category'];
             }
 
+            // save new data to replace the old one
             $categories->category = $category;
             $categories->save();
 
@@ -47,6 +54,7 @@ class CategoryController extends Controller
         }
     }
 
+    // function to delete category
     public function delete(){
         $category = CategoryModel::find($_POST['category_id']);
 

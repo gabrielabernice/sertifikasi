@@ -9,6 +9,7 @@ class CategoryModel extends Model
 {
     protected $table = 'categories';
 
+    // make relation to book
     public function book(): BelongsToMany{
         return $this->belongsToMany(BookModel::class, 'book_category', 'book_id', 'category_id');
     }

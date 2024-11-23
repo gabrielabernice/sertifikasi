@@ -7,6 +7,27 @@
     <title>Books</title>
 </head>
 <body>
+    {{-- form for filter --}}
+    <form action="/books" method="POST">
+        @csrf
+        <div>
+            <label for="categories">Filter by Categories: </label>
+            <select name="category_id" id="categories" required>
+                <option value="0">All</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" 
+                            {{ isset($_POST['category_id']) && $_POST['category_id'] == $category->id ? 'selected' : '' }}>
+                        {{ $category->category }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <button type="submit">Filter</button>
+    </form>
+
+    <br>
+
+    {{-- table to read books --}}
     <table>
         {{-- tr itu yang ke kanan
         td itu yang ke bawah --}}
@@ -22,7 +43,7 @@
             <th>Delete</th>
         </tr>
 
-        @foreach ($books as $book)
+        @foreach ($filteredBooks as $book)
         <tr>
             <td>{{$book->id}}</td>
             <td>{{$book->title}}</td>
@@ -35,6 +56,7 @@
                 @endforeach
             </td>
             <td>{{$book->is_available ? 'Yes' : 'No'}}</td>
+            {{-- button to update books --}}
             <td>
                 <form action="/update_book" method="POST">
                     @csrf
@@ -42,6 +64,7 @@
                     <button type="submit">Update</button>
                 </form>
             </td>
+            {{-- button to delete books --}}
             <td>
                 <form action="/delete_book" method="POST">
                     @csrf
@@ -55,8 +78,10 @@
    
     <br>
 
+    {{-- form to create new book --}}
     <form action="/create_book" method="POST">
         @csrf
+        {{-- title input --}}
         <div>
             <label for="title">Title : </label>
             <input type="text" id="title" name="title" required>
@@ -64,6 +89,7 @@
 
         <br>
 
+        {{-- author input --}}
         <div>
             <label for="author">Author : </label>
             <input type="text" id="author" name="author" required>
@@ -71,6 +97,7 @@
 
         <br>
 
+        {{-- description input --}}
         <div>
             <label for="description">Description : </label>
             <input type="text" id="description" name="description" required>
@@ -78,6 +105,7 @@
 
         <br>
 
+        {{-- published date input --}}
         <div>
             <label for="publish">Published Date : </label>
             <input type="date" id="publish" name="publish" required>
@@ -85,6 +113,7 @@
 
         <br>
 
+        {{-- categories input --}}
         <div>
             <label for="categories">Categories: </label>
             <select name="category_id[]" id="categories" multiple required>
@@ -98,6 +127,7 @@
 
         <br>
 
+        {{-- is available input --}}
         <div>
             <label for="available">Is Available : </label>
             <input type="checkbox" id="available" name="available" value="1">

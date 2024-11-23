@@ -11,10 +11,13 @@
         @csrf
         <input type="hidden" name="category_id" value="{{ $category->id }}">
 
+        {{-- category name input --}}
         <div>
             <label for="category">Category : </label>
             <input type="text" id="category" name="category" value="{{$category->category}}" required>
         </div>
+
+        <br>
 
         <button type="submit">Update Category</button>
     </form>

@@ -11,6 +11,7 @@
         @csrf
         <input type="hidden" name="book_id" value="{{ $book->id }}">
 
+        {{-- title input --}}
         <div>
             <label for="title">Title : </label>
             <input type="text" id="title" name="title" value="{{$book->title}}" required>
@@ -18,6 +19,7 @@
 
         <br>
 
+        {{-- author input --}}
         <div>
             <label for="author">Author : </label>
             <input type="text" id="author" name="author" value="{{$book->author}}" required>
@@ -25,6 +27,7 @@
 
         <br>
 
+        {{-- description input --}}
         <div>
             <label for="description">Description : </label>
             <input type="text" id="description" name="description" value="{{$book->description}}" required>
@@ -32,6 +35,7 @@
 
         <br>
 
+        {{-- published date input --}}
         <div>
             <label for="publish">Published Date : </label>
             <input type="date" id="publish" name="publish" value="{{$book->published_date}}" required>
@@ -39,6 +43,7 @@
 
         <br>
 
+        {{-- categories selection --}}
         <div>
             <label for="categories">Categories: </label>
             <select name="category_id[]" id="categories" multiple required>
@@ -55,6 +60,7 @@
 
         <br>
 
+        {{-- is available checkbox --}}
         <div>
             <label for="available">Is Available : </label>
             <input type="checkbox" id="available" name="available" value="1" 

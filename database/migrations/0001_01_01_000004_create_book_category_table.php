@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // create pivot table book_category
         Schema::create('book_category', function (Blueprint $table) {
             $table->unsignedBigInteger('book_id');
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
@@ -18,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
+            // take book_id and category_id as composite keys
             $table->primary(['book_id', 'category_id']);
             $table->timestamps();
         });
