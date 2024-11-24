@@ -3,6 +3,7 @@
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LoanController;
 use App\Http\Controllers\MemberController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,9 @@ Route::get('/categories', [CategoryController::class, 'view']);
 Route::post('/create_category', [CategoryController::class, 'create']);
 Route::post('/update_category', [CategoryController::class, 'update']);
 Route::post('/delete_category', [CategoryController::class, 'delete']);
+
+// route for loans
+Route::get('/loans', [LoanController::class, 'view']);
+Route::post('/create_loan', [LoanController::class, 'create']);
+Route::post('/update_loan', [LoanController::class, 'update']);
+Route::post('/delete_loan', [LoanController::class, 'delete']);

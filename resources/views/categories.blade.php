@@ -5,54 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Categories</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    {{-- table to read category --}}
-    <table>
-        {{-- tr itu yang ke kanan
-        td itu yang ke bawah --}}
-        <tr>
-            <th>ID</th>
-            <th>Category</th>
-            <th>Update</th>
-            <th>Delete</th>
-        </tr>
+    <div class="container mt-5">
+        <h2>Categories</h2>
+        
+        {{-- view categories table --}}
+        <table class="table table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Category</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($categories as $category)
+                <tr>
+                    <td>{{$category->id}}</td>
+                    <td>{{$category->category}}</td>
+                    <td>
+                        <form action="/update_category" method="POST">
+                            @csrf
+                            <input type="hidden" name="category_id" value="{{$category->id}}">
+                            <button type="submit" class="btn btn-warning">Update</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/delete_category" method="POST">
+                            @csrf
+                            <input type="hidden" name="category_id" value="{{$category->id}}">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this category?');">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
 
-        @foreach ($categories as $category)
-        <tr>
-            <td>{{$category->id}}</td>
-            <td>{{$category->category}}</td>
-            {{-- button to update category --}}
-            <td>
-                <form action="/update_category" method="POST">
-                    @csrf
-                    <input type="hidden" name="category_id" value="{{$category->id}}">
-                    <button type="submit">Update</button>
-                </form>
-            </td>
-            {{-- button to delete category --}}
-            <td>
-                <form action="/delete_category" method="POST">
-                    @csrf
-                    <input type="hidden" name="category_id" value="{{$category->id}}">
-                    <button type="submit" onclick="return confirm('Are you sure you want to delete this category?');">Delete</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </table>
-   
-    <br>
+        {{-- create new category form --}}
+        <h3>Create New Category</h3>
+        <form action="/create_category" method="POST">
+            @csrf
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-success">Create Category</button>
+        </form>
 
-    {{-- form to create new category --}}
-    <form action="/create_category" method="POST">
-        @csrf
-        <div>
-            <label for="category">Category : </label>
-            <input type="text" id="category" name="category" required>
-        </div>
-
-        <button type="submit">Create Category</button>
-    </form>
+        {{-- back button  --}}
+        <a href="/" class="btn btn-secondary mt-3">Back to Home</a>
+    </div>
 </body>
 </html>
